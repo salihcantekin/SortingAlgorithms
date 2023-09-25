@@ -1,11 +1,12 @@
 ﻿
 // 6
 
-var intArr = new[] { 2, 3, 4, 1, 5, 6, 3, 2 };
+var intArr = new[] { 4, 1, 7, 64, 02, 62, 144 };
 var strArr = new[] { "b", "z", "j", "a", "k" };
 
 HeapSort(intArr);
 HeapSort(strArr);
+
 
 Console.WriteLine(string.Join(",", intArr));
 Console.WriteLine(string.Join(",", strArr));
@@ -26,15 +27,13 @@ void HeapSort<T>(T[] array) where T : IComparable<T>
     for (int i = length - 1; i >= 0; i--)
     {
         // Swap
-        T temp = array[0];
-        array[0] = array[i];
-        array[i] = temp;
+        (array[i], array[0]) = (array[0], array[i]);
 
         // Heapify root element
         Heapify(array, i, 0);
     }
 }
-
+ 
 void Heapify<T>(T[] array, int length, int i) where T : IComparable<T>
 {
     int largest = i; // Initialize largest as root
@@ -53,9 +52,7 @@ void Heapify<T>(T[] array, int length, int i) where T : IComparable<T>
     if (largest != i)
     {
         // Swap
-        T swap = array[i];
-        array[i] = array[largest];
-        array[largest] = swap;
+        (array[largest], array[i]) = (array[i], array[largest]);
 
         // Recursively heapify the affected sub-tree
         Heapify(array, length, largest);

@@ -1,55 +1,36 @@
 ﻿
-// 2
+// Sıralama Algoritmaları - Selection Sort (Seçerek Sıralama)
 
-var intArr = new[] { 2, 3, 4, 1, 5, 6, 3, 2 };
-var strArr = new[] { "b", "z", "j", "a", "k" };
+int[] numbers = { 5, 2, 7, 9, 1, 0, 6, 3, 4, 10, 8 };
+string[] names = { "Ali", "Veli", "Ayşe", "Fatma" };
 
-SelectionSort(intArr);
-SelectionSort(strArr);
+SelectionSort(numbers);
+SelectionSort(names);
 
-Console.WriteLine(string.Join(",", intArr));
-Console.WriteLine(string.Join(",", strArr));
-
+Console.WriteLine(string.Join(',', numbers));
+Console.WriteLine(string.Join(',', names));
 
 Console.ReadLine();
 
+// Time Complexity -> O(n^2)
+// Space Complexity -> O(1)
 
-void SelectionSort<T>(T[] array)
+void SelectionSort<T>(T[] array) where T : IComparable
 {
-    int length = array.Length;
-
-    for (int i = 0; i < length - 1; i++)
+    for (int i = 0; i < array.Length; i++)
     {
-        // Assume the first element is the smallest
         int minIndex = i;
 
-        // Loop through the array starting from 'i + 1'
-        for (int j = i + 1; j < length; j++)
+        for (int j = i + 1; j < array.Length; j++)
         {
-            // If we find a smaller number, update 'minIndex'
-            if (Comparer<T>.Default.Compare(array[j], array[minIndex]) < 0)
+            if (array[j].CompareTo(array[minIndex]) < 0)
             {
                 minIndex = j;
             }
         }
 
-        // After we find the smallest number of the rest array, swap it with the first number
-        T temp = array[minIndex];
+        var temp = array[minIndex];
         array[minIndex] = array[i];
         array[i] = temp;
     }
 }
-
-
-
-
-/*
-Zaman Karmaşıklığı:
-
-En iyi durum: O(n^2), bu durumda bile her elemanın diğer tüm elemanlarla karşılaştırılması gerekiyor.
-Ortalama durum: O(n^2), çünkü her durumda n(n-1)/2 karşılaştırma yapılıyor.
-En kötü durum: O(n^2), burada da her elemanın diğer tüm elemanlarla karşılaştırılması gerekiyor.
-
-Boşluk Karmaşıklığı: O(1)
-
- */

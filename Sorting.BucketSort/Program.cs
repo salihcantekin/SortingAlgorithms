@@ -1,8 +1,6 @@
 ﻿
 // 7
 
-using System.Numerics;
-
 var intArr = new[] { 2, 3, 4, 1, 5, 6, 3, 2 };
 
 BucketSort(intArr);

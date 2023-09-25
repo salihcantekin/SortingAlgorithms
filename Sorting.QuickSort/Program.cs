@@ -1,76 +1,89 @@
 ﻿
-// 4
+// 4 -> Quick Sort
 
-var intArr = new[] { 2, 3, 4, 1, 5, 6, 3, 2 };
-var strArr = new[] { "b", "z", "j", "a", "k" };
+int[] intArray = new[] { 9, 2, 6, 2, 7, 0 };
+string[] strArray = new[] {"a", "z", "b", "x", "y" };
 
-QuickSort(intArr, 0, intArr.Length - 1);
-QuickSort(strArr, 0, strArr.Length - 1);
+QuickSortLomuto(intArray, 0, intArray.Length - 1);
+QuickSortLomuto(strArray, 0, strArray.Length - 1);
 
-Console.WriteLine(string.Join(",", intArr));
-Console.WriteLine(string.Join(",", strArr));
-
+Console.WriteLine(string.Join(',', intArray));
+Console.WriteLine(string.Join(',', strArray));
 
 Console.ReadLine();
 
-
-
-
-
-
-
-void QuickSort<T>(T[] array, int low, int high) where T : IComparable
+void QuickSortLomuto<T>(T[] array, int low, int high)
+    where T : IComparable
 {
     if (low < high)
     {
-        int partitionIndex = Partition(array, low, high);
+        var partitionIndex = PartitionLomuto(array, low, high);
 
-        // Recursively sort elements before and after partition
-        QuickSort(array, low, partitionIndex - 1);
-        QuickSort(array, partitionIndex + 1, high);
+        QuickSortLomuto(array, low, partitionIndex - 1);
+        QuickSortLomuto(array, partitionIndex + 1, high);
     }
 }
 
-int Partition<T>(T[] array, int low, int high) where T : IComparable
+int PartitionLomuto<T>(T[] array, int low, int high)
+    where T : IComparable
 {
-    // Select the pivot element
-    T pivot = array[high];
-    int i = (low - 1);
+    var pivot = array[high];
+    int i = low - 1;
 
-    // Put elements smaller than pivot on the left and greater than pivot on the right of pivot
-    for (int j = low; j < high; j++)
+    for(int j = low; j < high; j++) 
     {
-        if (array[j].CompareTo(pivot) <= 0)
+        if (array[j].CompareTo(pivot) < 0)
         {
             i++;
-
-            // Swap elements at i and j
-            T temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            Swap(array, i, j);
         }
     }
 
-    // Swap pivot element with element at (i + 1)
-    T temp1 = array[i + 1];
-    array[i + 1] = array[high];
-    array[high] = temp1;
+    Swap(array, i + 1, high);
 
     return i + 1;
 }
 
 
-/*
- 
-Time Complexity:
 
-Best case: O(n log n), this scenario occurs when the pivot element is always the median of the array. This causes the array to be divided in half at each recursive step.
-Average case: O(n log n), due to the divide and conquer nature of quick sort, it performs well on average.
-Worst case: O(n^2), this scenario occurs when the pivot element is the smallest or largest element in the array. This causes an imbalance partition of the array.
-Space Complexity:
 
-Quick sort is an in-place sorting algorithm, but it needs space for recursion. In the worst case, its space complexity is O(n), and in the best case (balanced partition), it's O(log n).
+void QuickSortHoare<T>(T[] array, int low, int high)
+    where T : IComparable
+{
+    if (low < high)
+    {
+        var partitionIndex = PartitionHoare(array, low, high);
 
-Please note that the worst-case scenario of QuickSort (n^2 comparisons) can be avoided by using randomized QuickSort or choosing the median element as the pivot.
+        QuickSortHoare(array, low, partitionIndex);
+        QuickSortHoare(array, partitionIndex + 1, high);
+    }
+}
 
- */
+int PartitionHoare<T>(T[] array, int low, int high)
+    where T: IComparable
+{
+    var pivot = array[low];
+    int i = low - 1, j = high + 1;
+
+    while(true)
+    {
+        do
+        {
+            i++;
+        } while (array[i].CompareTo(pivot) < 0);
+
+        do
+        {
+            j--;
+        } while (array[j].CompareTo(pivot) > 0);
+
+        if (i >= j)
+            return j;
+
+        Swap(array, i, j);
+    }
+}
+void Swap<T>(T[] array, int i, int j)
+{
+    (array[i], array[j]) = (array[j], array[i]);
+}
